@@ -10,7 +10,6 @@ module DeliveryPassenger
       options          = {}
       options[:file]   = @schedule_file
       options[:update] = true
-      options[:write]  = true
       Whenever::CommandLine.execute(options)
     end
 
