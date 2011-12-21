@@ -7,5 +7,6 @@ end
 
 post '/receptor' do
   DeliveryPassenger::Lunchbox.new.dispatcher(params[:type], params[:date])
+  "The package was recepted!"
 end
 
