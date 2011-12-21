@@ -39,7 +39,7 @@ module DeliveryPassenger
     end
 
     def parse_raw_crondate(crondate)
-      crondate.strftime("%M %H %d %m")
+      crondate.strftime("%M %H %d %m *")
     end
 
     def write_yaml(hash)
