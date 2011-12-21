@@ -18,7 +18,7 @@ module DeliveryPassenger
 
     def deploy
       options = {}
-      options[:file], options[:user], options[:update] = @schedule_file, 'root', true
+      options[:file], options[:update] = @schedule_file, true
       Whenever::CommandLine.execute(options)
     end
 
@@ -28,21 +28,10 @@ module DeliveryPassenger
     private
 
     def set_crondate_on_config_file(crondate)
-      parse_raw_crondate(crondate)
-      last_crondate = load_current_crondate
-      last_crondate['crondate'] = parse_raw_crondate(crondate)
+      current_crondate = load_current_crondate
+      current_crondate['crondate'] = parse_raw_crondate(crondate)
+      write_yaml(current_crondate)
     end
-
-    #def write_yaml(hash)
-    #  File.open(@schedule_file, 'w') do |f|
-    #    f.write(generate_yaml(hash))
-    #  end
-    #end
-
-    #def generate_yaml(hash)
-    #  method = hash.respond_to?(:ya2yaml) ? :ya2yaml : :to_yaml
-    #  string = hash.deep_stringify_keys.send(method)
-    #end
 
     def load_current_crondate
       crondate_file = File.dirname(__FILE__) + '/../../config/crondate.yml'
@@ -51,6 +40,12 @@ module DeliveryPassenger
 
     def parse_raw_crondate(crondate)
       crondate.strftime("%M %H %d %m")
+    end
+
+    def write_yaml(hash)
+      File.open(@schedule_file, 'w') do |f|
+        f.write(hash.to_yaml)
+      end
     end
   end
 end
