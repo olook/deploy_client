@@ -4,6 +4,7 @@ module DeliveryPassenger
 
     def initialize
       @schedule_file = File.dirname(__FILE__) + '/../../config/schedule.rb'
+      @crondate_file = File.dirname(__FILE__) + '/../../config/crondate.yml'
     end
 
     def dispatcher(type, crondate)
@@ -34,8 +35,7 @@ module DeliveryPassenger
     end
 
     def load_current_crondate
-      crondate_file = File.dirname(__FILE__) + '/../../config/crondate.yml'
-      YAML.load_file(crondate_file)
+      YAML.load_file(@crondate_file)
     end
 
     def parse_raw_crondate(crondate)
@@ -43,7 +43,7 @@ module DeliveryPassenger
     end
 
     def write_yaml(hash)
-      File.open(@schedule_file, 'w') do |f|
+      File.open(@crondate_file, 'w') do |f|
         f.write(hash.to_yaml)
       end
     end
