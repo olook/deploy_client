@@ -19,7 +19,7 @@ module DeliveryPassenger
 
     def deploy
       options = {}
-      options[:file], options[:update] = @schedule_file, true
+      options[:file], options[:update], options[:user] = @schedule_file, true, 'root'
       Whenever::CommandLine.execute(options)
     end
 
