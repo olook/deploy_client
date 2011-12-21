@@ -6,7 +6,8 @@ configure do
 end
 
 post '/receptor' do
-  DeliveryPassenger::Lunchbox.new.dispatcher(params[:type], params[:date])
+  parsed_params = JSON.parse(params.first[0])
+  DeliveryPassenger::Lunchbox.new.dispatcher(parsed_params['type'], parsed_params['date'])
   "The package was recepted!"
 end
 
