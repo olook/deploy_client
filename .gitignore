@@ -1,2 +1,4 @@
 .rvmrc
 *swp*
+nohup.out
+config/crondate.yml
