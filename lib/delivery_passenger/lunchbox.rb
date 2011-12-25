@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 module DeliveryPassenger
   class Lunchbox
     attr_reader :schedule_file, :date
@@ -9,18 +10,23 @@ module DeliveryPassenger
 
     def dispatcher(type, crondate)
       case type
-        when 'deploy'
-          set_crondate_on_config_file(crondate)
-          deploy
-        when 'rollback'
-          rollback
+      when 'deploy'
+        set_crondate_on_config_file(crondate)
+        deploy
+      when 'rollback'
+        rollback
       end
     end
 
     def deploy
       options = {}
       options[:file], options[:update], options[:user] = @schedule_file, true, 'root'
-      Whenever::CommandLine.execute(options)
+
+      begin
+        Whenever::CommandLine.execute(options)
+      rescue SystemExit
+        "Command executed."
+      end
     end
 
     def rollback
